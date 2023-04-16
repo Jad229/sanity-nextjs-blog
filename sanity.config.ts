@@ -5,14 +5,15 @@ import { schemaTypes } from "./schemas";
 
 const projectId = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID!;
 const dataset = process.env.NEXT_PUBLIC_SANITY_DATASET!; // "production"
+const apiVersion = process.env.NEXT_PUBLIC_SANITY_API_VERSION; // "2023-4-15"
 
 export default defineConfig({
   basePath: "/studio",
-  name: "DOMINICANDEV_Content_Studio",
   title: "DOMINICANDEV Content Studio",
 
   projectId,
   dataset,
+  apiVersion,
 
   plugins: [deskTool(), visionTool()],
   schema: {
