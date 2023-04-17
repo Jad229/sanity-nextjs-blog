@@ -13,7 +13,13 @@ export async function getPosts(): Promise<Post[]> {
 
   return client.fetch(
     groq`*[_type=='post']{
-    ...,
+    _id,
+    _createdAt,
+    title,
+    content,
+    excerpt,
+    "slug": slug.current,
+    "coverImage": coverImage.asset->url,
     author->,
   } | order(_createdAt asc)`
   );
