@@ -1,10 +1,10 @@
+import { Post } from "@/types/Post";
 import { createClient, groq } from "next-sanity";
-
 const projectId = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID!;
 const dataset = process.env.NEXT_PUBLIC_SANITY_DATASET!; // "production"
-const apiVersion = process.env.NEXT_PUBLIC_SANITY_API_VERSION; // "2023-4-15"
+const apiVersion = process.env.NEXT_PUBLIC_SANITY_API_VERSION; // "2023-04-16"
 
-export async function getBlogPosts() {
+export async function getPosts(): Promise<Post[]> {
   const client = createClient({
     projectId,
     dataset,
@@ -12,16 +12,9 @@ export async function getBlogPosts() {
   });
 
   return client.fetch(
-    groq`*[_type="post"]{
-    _id,
-    _createdAt,
-    name,
-    title,
-    content,
-    excerpt,
-    coverImage,
-    slug,
-    author
-  }`
+    groq`*[_type=='post']{
+    ...,
+    author->,
+  } | order(_createdAt asc)`
   );
 }
